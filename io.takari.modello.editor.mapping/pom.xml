@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <groupId>io.takari.modello.editor</groupId>
+  <artifactId>io.takari.modello.editor.mapping</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>bundle</packaging>
+  
+  <properties>
+    <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+    <osgi-version-qualifier>${maven.build.timestamp}</osgi-version-qualifier>
+    <maven-bundle-plugin.version>2.5.0</maven-bundle-plugin.version>
+  </properties>
+  
+  <dependencies>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>3.1</version>
+		</dependency>
+		<dependency>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+  </dependencies>
+    
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Embed-Dependency>
+              *;scope=compile|runtime
+            </Embed-Dependency>
+            <Embed-Directory>jars</Embed-Directory>
+
+            <_exportcontents>
+              io.takari.modello.editor.mapping.*
+            </_exportcontents>
+
+            <Import-Package>
+              !*
+            </Import-Package>
+            
+            <Require-Bundle>
+              org.eclipse.osgi
+            </Require-Bundle>
+            
+            <Bundle-ClassPath>.,{maven-dependencies}</Bundle-ClassPath>
+            <Eclipse-BuddyPolicy>registered</Eclipse-BuddyPolicy>
+            <Bundle-Activator>io.takari.modello.editor.mapping.MappingPlugin</Bundle-Activator>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-plugin</artifactId>
+      </plugin>
+    </plugins>
+    
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.1</version>
+          <configuration>
+          <!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
+            <source>1.7</source>
+            <target>1.7</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>${maven-bundle-plugin.version}</version>
+          <extensions>true</extensions>
+          <configuration>
+            <instructions>
+              <Embed-Transitive>true</Embed-Transitive>
+              <_failok>true</_failok>
+              <_nouses>true</_nouses>
+              <_nodefaultversion>true</_nodefaultversion>
+              <_snapshot>${osgi-version-qualifier}</_snapshot>
+
+              <Bundle-SymbolicName>${project.artifactId};singleton:=true</Bundle-SymbolicName>
+              <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
+              <Bundle-RequiredExecutionEnvironment>JavaSE-1.7,JavaSE-1.8</Bundle-RequiredExecutionEnvironment>
+              <Bundle-Name>%Bundle-Name</Bundle-Name>
+              <Bundle-Vendor>%Bundle-Vendor</Bundle-Vendor>
+              <Bundle-ClassPath>{maven-dependencies}</Bundle-ClassPath>
+
+              <Eclipse-BundleShape>dir</Eclipse-BundleShape>
+            </instructions>
+            <archive>
+              <addMavenDescriptor>false</addMavenDescriptor>
+            </archive>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>m2e</id>
+      <activation>
+        <property>
+          <name>m2e.version</name>
+        </property>
+      </activation>
+      <properties>
+        <osgi-version-qualifier>qualifier</osgi-version-qualifier>
+      </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.felix</groupId>
+              <artifactId>maven-bundle-plugin</artifactId>
+              <configuration>
+                  <!-- PDE does not honour custom manifest location -->
+                <manifestLocation>META-INF</manifestLocation>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
+</project>

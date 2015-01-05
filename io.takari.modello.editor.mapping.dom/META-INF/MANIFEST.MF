@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Modello Eclipse Plugin
+Bundle-SymbolicName: io.takari.modello.editor.mapping.dom;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7,
+ JavaSE-1.8
+Bundle-ClassPath: .
+Require-Bundle: io.takari.modello.editor.mapping,
+ org.eclipse.osgi
+Export-Package: io.takari.modello.editor.mapping.dom,
+ io.takari.modello.editor.mapping.dom.accessor,
+ io.takari.modello.editor.mapping.dom.annotations,
+ io.takari.modello.editor.mapping.dom.impl
+Bundle-Activator: io.takari.modello.editor.mapping.dom.DomMappingPlugin

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="io.takari.modello.editor.feature"
+      label="Modello Eclipse Plugin"
+      version="0.1.0.qualifier"
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0">
+   <install-handler/>
+
+   <plugin
+         id="io.takari.modello.editor.impl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="io.takari.modello.editor.mapping"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="io.takari.modello.editor.mapping.dom"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="io.takari.modello.editor.toolkit"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

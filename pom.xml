@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <groupId>io.takari.modello.editor</groupId>
+  <artifactId>parent</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <tycho-version>0.21.0</tycho-version>
+    <tycho-extras-version>${tycho-version}</tycho-extras-version>
+
+    <eclipse-repo.url>http://download.eclipse.org/releases/luna</eclipse-repo.url>
+  </properties>
+
+  <licenses>
+    <license>
+      <name>Eclipse Public License - v 1.0</name>
+      <url>http://www.eclipse.org/legal/epl-v10.html</url>
+    </license>
+  </licenses>
+
+  <repositories>
+    <repository>
+      <id>eclipse</id>
+      <layout>p2</layout>
+      <url>${eclipse-repo.url}</url>
+    </repository>
+    <repository>
+      <id>eclipse-license</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/cbi/updates/license</url>
+    </repository>
+  </repositories>
+
+  <modules>
+    <module>io.takari.modello.editor.mapping.dom</module>
+    <module>io.takari.modello.editor.toolkit</module>
+    <module>io.takari.modello.editor.impl</module>
+    <module>io.takari.modello.editor.feature</module>
+    <module>io.takari.modello.editor.repo</module>
+  </modules>
+  
+  <dependencies>
+    <dependency>
+      <groupId>io.takari.modello.editor</groupId>
+      <artifactId>io.takari.modello.editor.mapping</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <extensions>true</extensions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <pomDependencies>consider</pomDependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+    
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.4.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.3.2</version>
+          <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>2.3.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.modello</groupId>
+          <artifactId>modello-maven-plugin</artifactId>
+          <version>1.4.1</version>
+          <configuration>
+            <useJava5>true</useJava5>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>2.3.4</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-packaging-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-surefire-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-p2-plugin</artifactId>
+          <version>${tycho-version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>
