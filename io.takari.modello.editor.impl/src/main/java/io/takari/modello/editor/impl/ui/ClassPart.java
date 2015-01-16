@@ -259,9 +259,9 @@ public class ClassPart extends AbstractDetailPart {
     }
     
     private void hookListeners() {
-        BeanListActions.configure(getCurrentItem(), "interfaces", classInterfacesViewer, btnInterfaceAdd, btnInterfaceRemove).bind();
-        BeanListActions.configure(getCurrentItem(), "annotations", classAnnotationsViewer, btnAnnotationAdd, btnAnnotationRemove).bind();
-        BeanListActions.configure(getCurrentItem(), "codeSegments", codeSegmentsViewer, btnCodeSegmentAdd, btnCodeSegmentRemove)
+        BeanListActions.configure(getEditor(), getCurrentItem(), "interfaces", classInterfacesViewer, btnInterfaceAdd, btnInterfaceRemove).bind();
+        BeanListActions.configure(getEditor(), getCurrentItem(), "annotations", classAnnotationsViewer, btnAnnotationAdd, btnAnnotationRemove).bind();
+        BeanListActions.configure(getEditor(), getCurrentItem(), "codeSegments", codeSegmentsViewer, btnCodeSegmentAdd, btnCodeSegmentRemove)
             .withDialog(btnCodeSegmentEdit, new BeanListActions.IModelProvider() {
                 
                 @Override
@@ -271,7 +271,7 @@ public class ClassPart extends AbstractDetailPart {
                 
                 @Override
                 public boolean showDialog(IModelExtension tempModel) {
-                    return new EditCodeSegmentsDialog(getEditor(), (MCodeSegment) tempModel).open() == Dialog.OK;
+                    return new EditCodeSegmentsDialog(getEditor(), (MClass) getCurrentItem().getValue(), (MCodeSegment) tempModel).open() == Dialog.OK;
                 }
                 
             }).bind();

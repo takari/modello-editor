@@ -8,6 +8,7 @@ import io.takari.modello.editor.mapping.proxy.ModelProxyGenerator;
 import io.takari.modello.editor.toolkit.ToolkitPlugin;
 import io.takari.modello.editor.toolkit.ui.EditorFormToolkit;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -64,7 +65,6 @@ public abstract class DocumentEditor extends FormEditor implements IResourceChan
     
     protected abstract String getSourcePageText();
     
-    
     protected abstract IDocumentSessionProvider getSessionProvider();
     
     protected abstract IModelAccessor<?> createModelAccessor(ModelProxyGenerator gen); 
@@ -75,6 +75,17 @@ public abstract class DocumentEditor extends FormEditor implements IResourceChan
         
         proxyGenerator = new ModelProxyGenerator();
         model = proxyGenerator.createProxy(createModelAccessor(proxyGenerator), getModelClass());
+    }
+    
+    @Override
+    public IFile getFile() {
+        IEditorInput editorInput = getEditorInput();
+        
+        if(editorInput instanceof IFileEditorInput) {
+            return ((IFileEditorInput) editorInput).getFile();
+        }
+        
+        return null;
     }
     
     protected void addPages() {

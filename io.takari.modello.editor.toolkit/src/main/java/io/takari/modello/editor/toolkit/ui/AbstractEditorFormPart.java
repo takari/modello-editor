@@ -51,7 +51,7 @@ public abstract class AbstractEditorFormPart extends AbstractFormPart implements
         return editor;
     }
     
-    public IModel getModel() {
+    protected IModel getModel() {
         return editor.getModel();
     }
     

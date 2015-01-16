@@ -24,24 +24,26 @@ public abstract class MetadataPluginDetailPart extends AbstractDetailPart {
     public void selectionChanged(IFormPart part, ISelection selection) {
         
         IModelExtension model = (IModelExtension) ((IStructuredSelection)selection).getFirstElement();
-        IModelExtension delegate = model._getDelegate();
-        
-        if(getDetailClass().isAssignableFrom(delegate._getModelClass())) {
+        if(model != null) {
+            IModelExtension delegate = model._getDelegate();
             
-            String key = MetadataPluginDetailPart.class.getName() + "#metadata#" + getMetadataDetailClass().getName();
-            IModelExtension metadataModel = (IModelExtension) delegate._getData(key);
-            
-            if(metadataModel == null) {
-                metadataModel = (IModelExtension) delegate._createSubProxy(getMetadataDetailClass());
-                delegate._setData(key, metadataModel);
+            if(getDetailClass().isAssignableFrom(delegate._getModelClass())) {
+                
+                String key = MetadataPluginDetailPart.class.getName() + "#metadata#" + getMetadataDetailClass().getName();
+                IModelExtension metadataModel = (IModelExtension) delegate._getData(key);
+                
+                if(metadataModel == null) {
+                    metadataModel = (IModelExtension) delegate._createSubProxy(getMetadataDetailClass());
+                    delegate._setData(key, metadataModel);
+                }
+                
+                selection = new StructuredSelection(metadataModel);
+                
+            } else {
+                
+                selection = new StructuredSelection();
+                
             }
-            
-            selection = new StructuredSelection(metadataModel);
-            
-        } else {
-            
-            selection = new StructuredSelection();
-            
         }
         super.selectionChanged(part, selection);
     }

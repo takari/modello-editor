@@ -23,7 +23,8 @@ Require-Bundle: io.takari.modello.editor.mapping,
  org.eclipse.wst.xsd.core,
  org.eclipse.xsd,
  org.eclipse.jdt.ui,
- org.eclipse.jdt.core
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.debug.ui
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7,
  JavaSE-1.8
@@ -33,6 +34,7 @@ Export-Package: io.takari.modello.editor.toolkit,
  io.takari.modello.editor.toolkit.actions,
  io.takari.modello.editor.toolkit.dom,
  io.takari.modello.editor.toolkit.editor,
+ io.takari.modello.editor.toolkit.jdt,
  io.takari.modello.editor.toolkit.model,
  io.takari.modello.editor.toolkit.ui,
  io.takari.modello.editor.toolkit.util,

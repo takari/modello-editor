@@ -1,5 +1,6 @@
 package io.takari.modello.editor.toolkit.editor;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.forms.editor.FormEditor;
 
@@ -32,5 +33,7 @@ public interface IDocumentEditor {
     SyncState getSync();
 
     ModelProxyGenerator getProxyGenerator();
+
+    IFile getFile();
     
 }

@@ -3,6 +3,7 @@ package io.takari.modello.editor.impl.ui.dialogs;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.forms.IManagedForm;
 
+import io.takari.modello.editor.impl.model.AbstractType;
 import io.takari.modello.editor.impl.model.MCodeSegment;
 import io.takari.modello.editor.impl.ui.CodeSegmentPart;
 import io.takari.modello.editor.toolkit.editor.IDocumentEditor;
@@ -12,9 +13,9 @@ public class EditCodeSegmentsDialog extends AbstractEditorFormDialog {
 
     private CodeSegmentPart codeSegmentsPart;
 
-    public EditCodeSegmentsDialog(IDocumentEditor editor, MCodeSegment codeSegment) {
+    public EditCodeSegmentsDialog(IDocumentEditor editor, AbstractType type, MCodeSegment codeSegment) {
         super(editor);
-        addPart(codeSegmentsPart = new CodeSegmentPart(editor, codeSegment));
+        addPart(codeSegmentsPart = new CodeSegmentPart(editor, type, codeSegment));
     }
     
     @Override
@@ -25,6 +26,12 @@ public class EditCodeSegmentsDialog extends AbstractEditorFormDialog {
     @Override
     protected void createFormContent(IManagedForm mform) {
         codeSegmentsPart.createContents(mform.getForm().getBody());
+    }
+    
+    @Override
+    protected void okPressed() {
+        codeSegmentsPart.commit(true);
+        super.okPressed();
     }
     
 }

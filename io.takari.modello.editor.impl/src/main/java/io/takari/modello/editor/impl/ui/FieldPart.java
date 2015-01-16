@@ -238,7 +238,7 @@ public class FieldPart extends AbstractDetailPart {
     }
 
     private void hookListeners() {
-        BeanListActions.configure(getCurrentItem(), "annotations", annotationsViewer, btnAnnotationAdd, btnAnnotationRemove);
+        BeanListActions.configure(getEditor(), getCurrentItem(), "annotations", annotationsViewer, btnAnnotationAdd, btnAnnotationRemove);
     }
     
     @Override

@@ -1,11 +1,11 @@
 package io.takari.modello.editor.impl.model;
 
 import io.takari.modello.editor.mapping.annotations.Observe;
-import io.takari.modello.editor.mapping.dom.annotations.XMLText;
+import io.takari.modello.editor.mapping.dom.annotations.XMLCData;
 
 public class MCodeSegment extends AbstractModelloModel {
     
-    @XMLText("code")
+    @XMLCData("code")
     private String code;
 
     public String getCode() {
