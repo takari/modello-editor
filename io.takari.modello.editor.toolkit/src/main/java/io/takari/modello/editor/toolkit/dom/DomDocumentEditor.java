@@ -45,9 +45,15 @@ public abstract class DomDocumentEditor extends DocumentEditor {
     }
     
     protected IModelAccessor<?> createModelAccessor(ModelProxyGenerator gen) {
-        return new DomModelAccessor(sessionProvider, gen);
+        return new DomModelAccessor(sessionProvider, gen, getModelNamespace(), getModelSchemaLocation(), getModelRoot());
     }
     
     protected abstract Class<? extends IModel> getModelClass();
+    
+    protected abstract String getModelNamespace();
+    
+    protected abstract String getModelSchemaLocation();
+    
+    protected abstract String getModelRoot();
     
 }

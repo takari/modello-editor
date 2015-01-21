@@ -2,7 +2,6 @@ package io.takari.modello.editor.mapping.dom.accessor;
 
 import io.takari.modello.editor.mapping.api.IPropertyAccessor;
 import io.takari.modello.editor.mapping.dom.accessor.PathParser.DomPath;
-import io.takari.modello.editor.mapping.dom.impl.DomRoot;
 import io.takari.modello.editor.mapping.dom.impl.DomSection;
 import io.takari.modello.editor.mapping.model.IModelExtension;
 
@@ -46,7 +45,7 @@ public abstract class BaseAccessor<T> implements IPropertyAccessor<DomModelAcces
             if(delegate.getParent() != null) {
                 section = getContainer(((IModelExtension) delegate.getParent())._getDelegate());
             } else {
-                section = new DomRoot();
+                section = ctx.createRoot();
             }
             
             setContainer(model, section);

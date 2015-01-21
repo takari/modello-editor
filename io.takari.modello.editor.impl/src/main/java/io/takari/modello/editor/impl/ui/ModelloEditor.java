@@ -17,5 +17,19 @@ public class ModelloEditor extends DomDocumentEditor {
     protected void createFormPages() throws PartInitException {
         addPage(new ModelloDesignPage(this));
     }
-
+    
+    @Override
+    protected String getModelNamespace() {
+        return "http://modello.codehaus.org/MODELLO/1.4.1";
+    }
+    
+    @Override
+    protected String getModelSchemaLocation() {
+        return "http://modello.codehaus.org/xsd/modello-1.4.1.xsd";
+    }
+    
+    @Override
+    protected String getModelRoot() {
+        return "model";
+    }
 }
