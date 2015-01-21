@@ -82,6 +82,16 @@ public class ModelProxyGenerator {
         
         @Override
         public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+            
+            if(method.getName().equals("equals")) {
+               if(obj == args[0]) return true;
+               return delegate.equals(args[0]);
+            }
+            
+            if(method.getName().equals("hashCode")) {
+                return delegate.hashCode();
+             }
+             
             Method m = findExtensionMethod(method);
             if(m != null) {
                 return m.invoke(delegate, args);

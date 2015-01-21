@@ -16,6 +16,11 @@ public class DirectModelAccessor extends AbstractModelAccessor<DirectModelAccess
         super(new DirectPropertyAccessorFactory());
     }
     
+    @Override
+    public boolean compare(IModelExtension model1, IModelExtension model2) {
+        return model1 == model2;
+    }
+    
     private static class DirectPropertyAccessorFactory implements IPropertyAccessorManager<DirectModelAccessor> {
         @Override
         public IPropertyAccessor<DirectModelAccessor> getAccessor(Class<? extends IModel> modelClass, PropertyDescriptor property) {

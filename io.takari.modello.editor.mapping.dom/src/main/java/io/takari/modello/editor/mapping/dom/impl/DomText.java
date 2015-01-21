@@ -24,7 +24,7 @@ class DomText extends DomValue {
     
     protected void setDefault(DomHelper ctx, Node node) {
         remove(ctx, node);
-        getParent().removeIfEmpty(ctx);
+        getParent().removeIfNoChildren(ctx);
     }
     
     @Override

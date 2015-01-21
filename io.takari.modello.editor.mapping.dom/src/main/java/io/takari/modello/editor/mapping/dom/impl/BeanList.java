@@ -84,6 +84,8 @@ abstract class BeanList<F, T> implements IBeanList<T> {
                 List<T> newData = new ArrayList<>(data);
                 
                 int idx = newData.indexOf(bean);
+                
+                mapper.setIndex(bean, -1);
                 newData.remove(idx);
                 
                 for(; idx < newData.size(); idx++) {

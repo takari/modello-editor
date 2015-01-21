@@ -61,7 +61,8 @@ public class DomList extends DomSection {
         if(node == null) return;
         
         remove(ctx, node);
-        removeIfNoChildren(ctx, parentNode);
+        getParent().removeIfNoChildren(ctx);
+        section.index = -1;
     }
     
     public boolean moveSection(DomHelper ctx, DomSection f, int pos) {
@@ -142,7 +143,7 @@ public class DomList extends DomSection {
         if(node == null) return;
         
         remove(ctx, node);
-        removeIfNoChildren(ctx, parentNode);
+        getParent().removeIfNoChildren(ctx);
     }
     
     public <E> IBeanList<E> mapSections(IBeanMapper<DomSection, E> mapper) {
@@ -180,6 +181,15 @@ public class DomList extends DomSection {
         return noChildren;
     }
     
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass().equals(DomList.class)) {
+            DomList other = (DomList) obj;
+            return getParent().equals(other.getParent()) && name.equals(other.name) && index == other.index && itemName.equals(other.itemName);
+        }
+        return false;
+    }
+    
     private class ListSection extends DomSection {
 
         ListSection(int idx) {
@@ -200,6 +210,15 @@ public class DomList extends DomSection {
         @Override
         public DomValue cdata(String name) {
             return new ListSectionText(this, name, true);
+        }
+        
+        @Override
+        public boolean equals(Object obj) {
+            if(obj.getClass().equals(ListSection.class)) {
+                ListSection other = (ListSection) obj;
+                return getParent().equals(other.getParent()) && name.equals(other.name) && index == other.index;
+            }
+            return false;
         }
     }
     

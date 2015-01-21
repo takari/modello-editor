@@ -19,5 +19,7 @@ public interface IModelAccessor<E extends IModelAccessor<E>> {
     void move(IModelExtension model, PropertyDescriptor pd, Object item, int pos);
     
     void touch(IModelExtension model, PropertyDescriptor pd);
+
+    boolean compare(IModelExtension model1, IModelExtension model2);
     
 }

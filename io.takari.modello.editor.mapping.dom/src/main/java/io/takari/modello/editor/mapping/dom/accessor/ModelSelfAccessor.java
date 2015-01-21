@@ -17,7 +17,7 @@ public class ModelSelfAccessor extends BaseAccessor<DomSection> {
 
     @Override
     public void touch(DomModelAccessor ctx, IModelExtension model) {
-        getContainer(model).touch(ctx.getDomHelper());
+        ctx.getContainer(model).touch(ctx.getDomHelper());
     }
 
     @Override

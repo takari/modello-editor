@@ -6,6 +6,7 @@ public class DomSection extends AbstractDom {
     
     protected final String name;
     protected int index;
+    protected boolean removeIfEmpty = true;
     
     DomSection(DomSection parent, String name) {
         this(parent, name, 0);
@@ -16,16 +17,14 @@ public class DomSection extends AbstractDom {
         this.index = index;
     }
     
+    public DomSection persistent() {
+        removeIfEmpty = false;
+        return this;
+    }
+    
     public int getIndex() {
         return index;
     }
-    
-    /*
-    public DomSection removeEmpty() {
-        removeEmpty = true;
-        return this;
-    }
-    */
     
     @Override
     protected Element getNode(DomHelper ctx, boolean create) {
@@ -65,8 +64,17 @@ public class DomSection extends AbstractDom {
         return new DomAttr(this, name);
     }
 
-    void removeIfEmpty(DomHelper ctx) {
-        removeIfNoChildren(ctx, getNode(ctx, false));
+    protected boolean removeIfEmpty() {
+        return removeIfEmpty;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass().equals(DomSection.class)) {
+            DomSection other = (DomSection) obj;
+            return getParent().equals(other.getParent()) && name.equals(other.name) && index == other.index;
+        }
+        return false;
     }
     
 }

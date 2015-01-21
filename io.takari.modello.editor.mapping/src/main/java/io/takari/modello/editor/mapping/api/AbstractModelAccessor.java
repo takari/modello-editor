@@ -5,7 +5,7 @@ import io.takari.modello.editor.mapping.model.IModelExtension;
 import java.beans.PropertyDescriptor;
 
 @SuppressWarnings("unchecked")
-public class AbstractModelAccessor<E extends AbstractModelAccessor<E>> implements IModelAccessor<E> {
+public abstract class AbstractModelAccessor<E extends AbstractModelAccessor<E>> implements IModelAccessor<E> {
     
     private final IPropertyAccessorManager<E> mgr;
 
@@ -47,7 +47,6 @@ public class AbstractModelAccessor<E extends AbstractModelAccessor<E>> implement
     public void touch(IModelExtension model, PropertyDescriptor pd) {
         getAccessor(model, pd).touch((E)this, model);
     }
-    
     
     private IPropertyAccessor<E> getAccessor(IModelExtension model, PropertyDescriptor pd) {
         IPropertyAccessor<E> a = mgr.getAccessor(model._getModelClass(), pd);

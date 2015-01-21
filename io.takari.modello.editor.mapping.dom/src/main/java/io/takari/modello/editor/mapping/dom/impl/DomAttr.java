@@ -21,7 +21,7 @@ class DomAttr extends DomValue {
     protected void setDefault(DomHelper ctx, Node node) {
         ((Element)node).removeAttribute(name);
         ctx.updateSelection(node);
-        getParent().removeIfEmpty(ctx);
+        removeIfNoChildren(ctx);
     }
     
     @Override

@@ -31,6 +31,15 @@ public class DomMap extends DomList {
         //return findElement(ctx, sectionNode, valueName, create);
     }
     
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass().equals(DomMap.class)) {
+            DomMap other = (DomMap) obj;
+            return getParent().equals(other.getParent()) && name.equals(other.name) && index == other.index && itemName.equals(other.itemName) && keyName.equals(other.keyName);
+        }
+        return false;
+    }
+    
     private class MapSection extends DomSection {
 
         private String key;
@@ -53,6 +62,15 @@ public class DomMap extends DomList {
         @Override
         public DomValue cdata(String name) {
             return new MapSectionText(this, name, true);
+        }
+        
+        @Override
+        public boolean equals(Object obj) {
+            if(obj.getClass().equals(MapSection.class)) {
+                MapSection other = (MapSection) obj;
+                return getParent().equals(other.getParent()) && name.equals(other.name) && key.equals(other.key);
+            }
+            return false;
         }
     }
     
@@ -88,10 +106,8 @@ public class DomMap extends DomList {
         
         @Override
         protected void setDefault(DomHelper ctx, Node node) {
-            Node parent = node.getParentNode();
-            super.setDefault(ctx, node);
-            
-            removeIfOnlyNodeLeft(ctx, parent, keyName);
+            remove(ctx, node);
+            getParent().removeIfOnlyNodeLeft(ctx, keyName);
         }
     }
     

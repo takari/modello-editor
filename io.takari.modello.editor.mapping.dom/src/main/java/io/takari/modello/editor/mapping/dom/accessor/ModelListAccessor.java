@@ -85,22 +85,23 @@ public class ModelListAccessor extends BaseAccessor<IBeanList<Object>> {
     
     @Override
     public void touch(DomModelAccessor ctx, IModelExtension model) {
-        getContainer(model).touch(ctx.getDomHelper());
+        ctx.getContainer(model).touch(ctx.getDomHelper());
     }
     
     @Override
     protected IBeanList<Object> createPropertyData(final DomModelAccessor ctx, final IModelExtension model, DomPath path) {
-        return path.list(getContainer(model)).mapSections(new IBeanMapper<DomSection, Object>() {
+        return path.list(ctx.getContainer(model)).mapSections(new IBeanMapper<DomSection, Object>() {
             @Override
             public IModelExtension map(DomSection from) {
                 IModelExtension child = (IModelExtension) ctx.getProxyGenerator().createProxy(ctx, itemType, model, property);
                 child._setIndex(from.getIndex());
-                setContainer(child, from);
+                ctx.setContainer(child, from);
+                from.persistent(); // do not delete such sections when empty
                 return child;
             }
             @Override
             public DomSection unmap(Object from) {
-                return getContainer((IModelExtension) from);
+                return ctx.getContainer((IModelExtension) from);
             }
             
             @Override

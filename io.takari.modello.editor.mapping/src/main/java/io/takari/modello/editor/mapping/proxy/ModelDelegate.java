@@ -294,6 +294,22 @@ public class ModelDelegate implements IModelExtension {
         }
     }
     
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof IModelExtension) {
+            IModelExtension other = ((IModelExtension) obj)._getDelegate();
+            
+            return ctx.compare(this, other) && index == other._getIndex();
+            
+        }
+        return false;
+    }
+    
     private class ListControl implements IListControl {
 
         private String name;

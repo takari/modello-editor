@@ -111,6 +111,7 @@ public class ModelTreePart extends AbstractEditorFormPart {
                     @Override
                     public void run() {
                         IModelExtension newItem = control.add();
+                        modelTreeViewer.expandToLevel(model, 1);
                         modelTreeViewer.setSelection(new StructuredSelection(newItem));
                     }
                 });

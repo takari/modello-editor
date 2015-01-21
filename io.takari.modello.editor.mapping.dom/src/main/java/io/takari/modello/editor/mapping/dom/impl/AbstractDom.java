@@ -329,15 +329,23 @@ public abstract class AbstractDom {
         }
         return -1;
     }
+    
+    protected boolean removeIfEmpty() {
+        return true;
+    }
 
-    protected void removeIfNoChildren(DomHelper ctx, Node el) {
-        removeIfOnlyNodeLeft(ctx, el, null);
+    protected void removeIfNoChildren(DomHelper ctx) {
+        removeIfOnlyNodeLeft(ctx, null);
     }
     
-    protected void removeIfOnlyNodeLeft(DomHelper ctx, Node el, String allowedName) {
+    protected void removeIfOnlyNodeLeft(DomHelper ctx, String allowedName) {
+        Node el = getNode(ctx, false);
+        
         if(el == null) return;
         
         if(el.getAttributes().getLength() > 0) return;
+        
+        List<Node> textNodes = new ArrayList<Node>();
         
         NodeList nl = el.getChildNodes();
         boolean hasChildren = false;
@@ -350,13 +358,22 @@ public abstract class AbstractDom {
                     hasChildren |= true;
                 }
                 if(hasChildren) return;
+            } else if(child instanceof Text) {
+                textNodes.add(child);
             }
         }
         if (!hasChildren) {
             Node parent = el.getParentNode();
             if (parent != null && parent instanceof Element) {
-                remove(ctx, el);
-                removeIfNoChildren(ctx, parent);
+                if(removeIfEmpty()) {
+                    remove(ctx, el);
+                    getParent().removeIfNoChildren(ctx);
+                } else {
+                    // clear all text
+                    for(Node t: textNodes) {
+                        el.removeChild(t);
+                    }
+                }
                 ctx.clearTextCache();
             }
         }

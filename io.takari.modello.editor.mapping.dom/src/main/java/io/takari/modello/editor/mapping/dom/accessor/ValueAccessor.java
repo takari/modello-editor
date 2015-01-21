@@ -60,13 +60,13 @@ public class ValueAccessor extends BaseAccessor<DomValue> {
         DomValue val = null;
         switch(type) {
         case TEXT:
-            val = path.text(getContainer(model));
+            val = path.text(ctx.getContainer(model));
             break;
         case CDATA:
-            val = path.cdata(getContainer(model));
+            val = path.cdata(ctx.getContainer(model));
             break;
         case ATTR:
-            val = path.attr(getContainer(model));
+            val = path.attr(ctx.getContainer(model));
             break;
         }
         return val.def(defValue);

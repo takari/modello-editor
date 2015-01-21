@@ -67,8 +67,7 @@ public abstract class DocumentEditor extends FormEditor implements IResourceChan
     
     protected abstract IDocumentSessionProvider getSessionProvider();
     
-    protected abstract IModelAccessor<?> createModelAccessor(ModelProxyGenerator gen); 
-    
+    protected abstract IModelAccessor<?> createModelAccessor(ModelProxyGenerator gen);
     
     private void initDocument() {
         document = textEditor.getDocumentProvider().getDocument(getEditorInput());

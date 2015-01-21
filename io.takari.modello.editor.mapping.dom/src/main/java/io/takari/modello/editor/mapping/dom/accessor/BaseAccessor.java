@@ -38,17 +38,17 @@ public abstract class BaseAccessor<T> implements IPropertyAccessor<DomModelAcces
     protected T getPropertyData(DomModelAccessor ctx, IModelExtension model) {
         IModelExtension delegate = model._getDelegate();
         
-        if(getContainer(model) == null) {
+        if(ctx.getContainer(model) == null) {
             
             DomSection section = null;
             
             if(delegate.getParent() != null) {
-                section = getContainer(((IModelExtension) delegate.getParent())._getDelegate());
+                section = ctx.getContainer(((IModelExtension) delegate.getParent())._getDelegate());
             } else {
                 section = ctx.createRoot();
             }
             
-            setContainer(model, section);
+            ctx.setContainer(model, section);
         }
         
         //BeanData beanData = getBeanData(delegate);
@@ -66,13 +66,4 @@ public abstract class BaseAccessor<T> implements IPropertyAccessor<DomModelAcces
     }
     
     protected abstract T createPropertyData(DomModelAccessor ctx, IModelExtension model, DomPath path);
-    
-    protected DomSection getContainer(IModelExtension model) {
-        return (DomSection) model._getData(BaseAccessor.class.getName() + ".container");
-    }
-    
-    protected void setContainer(IModelExtension model, DomSection relativeSection) {
-        model._setData(BaseAccessor.class.getName() + ".container", relativeSection);
-    }
-    
 }

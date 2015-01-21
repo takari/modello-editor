@@ -23,15 +23,15 @@ public class ModelSectionAccessor extends BaseAccessor<IModelExtension> {
     
     @Override
     public void touch(DomModelAccessor ctx, IModelExtension model) {
-        getContainer(getPropertyData(ctx, model)).touch(ctx.getDomHelper());
+        ctx.getContainer(getPropertyData(ctx, model)).touch(ctx.getDomHelper());
     }
 
     @Override
     protected IModelExtension createPropertyData(DomModelAccessor ctx, IModelExtension model, DomPath path) {
         IModelExtension newModel = (IModelExtension) ctx.getProxyGenerator().createProxy(ctx, type, model, property);
-        DomSection section = path.section(getContainer(model));
+        DomSection section = path.section(ctx.getContainer(model));
         
-        setContainer(newModel, section);
+        ctx.setContainer(newModel, section);
         
         return newModel;
         

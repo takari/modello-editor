@@ -43,4 +43,9 @@ public class DomRoot extends DomSection {
         
         return elem;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        return obj == this;
+    }
 }
