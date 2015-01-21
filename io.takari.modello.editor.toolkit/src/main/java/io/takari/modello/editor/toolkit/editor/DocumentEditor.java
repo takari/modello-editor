@@ -12,6 +12,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -35,7 +36,6 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.IGotoMarker;
-import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorSite;
 
 public abstract class DocumentEditor extends FormEditor implements IResourceChangeListener, IGotoMarker, IDocumentEditor {
@@ -214,18 +214,33 @@ public abstract class DocumentEditor extends FormEditor implements IResourceChan
     }
     
     public void resourceChanged(final IResourceChangeEvent event){
+        final IFile file = getFile();
+        if(file == null) return;
+        
         if(event.getType() == IResourceChangeEvent.PRE_CLOSE){
             Display.getDefault().asyncExec(new Runnable(){
                 public void run(){
                     IWorkbenchPage[] pages = getSite().getWorkbenchWindow().getPages();
                     for (int i = 0; i<pages.length; i++){
-                        if(((FileEditorInput)textEditor.getEditorInput()).getFile().getProject().equals(event.getResource())){
+                        if(file.getProject().equals(event.getResource())){
                             IEditorPart editorPart = pages[i].findEditor(textEditor.getEditorInput());
                             pages[i].closeEditor(editorPart,true);
                         }
                     }
                 }
             });
+            return;
+        }
+        
+        // close on file delete
+        IResourceDelta delta = event.getDelta();
+        if(delta != null) {
+            if(file != null) {
+                IResourceDelta resDelta = delta.findMember(file.getFullPath());
+                if(resDelta.getKind() == IResourceDelta.REMOVED) {
+                    close(false);
+                }
+            }
         }
     }
     
