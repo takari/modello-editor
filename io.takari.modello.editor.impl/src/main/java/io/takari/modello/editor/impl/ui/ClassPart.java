@@ -13,6 +13,7 @@ import io.takari.modello.editor.mapping.model.IModelExtension;
 import io.takari.modello.editor.toolkit.actions.BeanListActions;
 import io.takari.modello.editor.toolkit.editor.IDocumentEditor;
 import io.takari.modello.editor.toolkit.ui.AbstractDetailPart;
+import io.takari.modello.editor.toolkit.util.ModelListDragSupport;
 import io.takari.modello.editor.toolkit.util.TableSingleColumnLabelProvider;
 
 import java.util.ArrayList;
@@ -259,9 +260,9 @@ public class ClassPart extends AbstractDetailPart {
     }
     
     private void hookListeners() {
-        BeanListActions.configure(getEditor(), getCurrentItem(), "interfaces", classInterfacesViewer, btnInterfaceAdd, btnInterfaceRemove).bind();
-        BeanListActions.configure(getEditor(), getCurrentItem(), "annotations", classAnnotationsViewer, btnAnnotationAdd, btnAnnotationRemove).bind();
-        BeanListActions.configure(getEditor(), getCurrentItem(), "codeSegments", codeSegmentsViewer, btnCodeSegmentAdd, btnCodeSegmentRemove)
+        new BeanListActions(getEditor(), getCurrentItem(), "interfaces", classInterfacesViewer, btnInterfaceAdd, btnInterfaceRemove).bind();
+        new BeanListActions(getEditor(), getCurrentItem(), "annotations", classAnnotationsViewer, btnAnnotationAdd, btnAnnotationRemove).bind();
+        new BeanListActions(getEditor(), getCurrentItem(), "codeSegments", codeSegmentsViewer, btnCodeSegmentAdd, btnCodeSegmentRemove)
             .withDialog(btnCodeSegmentEdit, new BeanListActions.IModelProvider() {
                 
                 @Override
@@ -275,6 +276,9 @@ public class ClassPart extends AbstractDetailPart {
                 }
                 
             }).bind();
+        ModelListDragSupport.configure(classInterfacesViewer);
+        ModelListDragSupport.configure(classAnnotationsViewer);
+        ModelListDragSupport.configure(codeSegmentsViewer);
     }
     
     @Override

@@ -314,15 +314,30 @@ public class ModelDelegate implements IModelExtension {
 
         private String name;
         private EditableList elist;
+        private Set<String> hints;
 
         public ListControl(String name, EditableList elist) {
             this.name = name;
             this.elist = elist;
+            if(elist != null) {
+                String[] hs = elist.hints().split(",");
+                for(String h: hs) {
+                    h = h.trim();
+                    if(h.isEmpty()) continue;
+                    if(hints == null) hints = new HashSet<String>();
+                    hints.add(h);
+                }
+            }
         }
         
         @Override
         public boolean isEditable() {
             return elist != null;
+        }
+        
+        @Override
+        public boolean hasHint(String hint) {
+            return hints != null && hints.contains(hint);
         }
 
         @Override

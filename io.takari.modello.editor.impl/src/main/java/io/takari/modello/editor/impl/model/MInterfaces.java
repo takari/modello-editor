@@ -17,7 +17,7 @@ public class MInterfaces extends AbstractModelBean implements ITreeBean {
     @XMLList("interface")
     private List<MInterface> interfaces;
 
-    @EditableList("Interface")
+    @EditableList(value = "Interface", hints = "modelTree")
     public List<MInterface> getInterfaces() {
         return this.interfaces;
     }

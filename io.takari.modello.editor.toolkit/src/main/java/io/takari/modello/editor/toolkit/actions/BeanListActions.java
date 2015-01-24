@@ -18,11 +18,6 @@ import io.takari.modello.editor.toolkit.editor.IDocumentEditor;
 
 public class BeanListActions {
     
-    public static BeanListActions configure(IDocumentEditor editor, IObservableValue obj, String property, TableViewer viewer, Button addButton, Button removeButton) {
-        BeanListActions actions = new BeanListActions(editor, obj, property, viewer, addButton, removeButton);
-        return actions;
-    }
-    
     private IDocumentEditor editor;
     private IObservableValue obj;
     private String property;
@@ -32,7 +27,7 @@ public class BeanListActions {
     private Button editButton;
     private IModelProvider provider;
     
-    BeanListActions(IDocumentEditor editor, IObservableValue obj, String property, TableViewer viewer, Button addButton, Button removeButton) {
+    public BeanListActions(IDocumentEditor editor, IObservableValue obj, String property, TableViewer viewer, Button addButton, Button removeButton) {
         this.editor = editor;
         this.obj = obj;
         this.property = property;

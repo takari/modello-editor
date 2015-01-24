@@ -15,6 +15,7 @@ import io.takari.modello.editor.mapping.model.IModel;
 import io.takari.modello.editor.toolkit.actions.BeanListActions;
 import io.takari.modello.editor.toolkit.editor.IDocumentEditor;
 import io.takari.modello.editor.toolkit.ui.AbstractDetailPart;
+import io.takari.modello.editor.toolkit.util.ModelListDragSupport;
 import io.takari.modello.editor.toolkit.util.TableSingleColumnLabelProvider;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -238,7 +239,8 @@ public class FieldPart extends AbstractDetailPart {
     }
 
     private void hookListeners() {
-        BeanListActions.configure(getEditor(), getCurrentItem(), "annotations", annotationsViewer, btnAnnotationAdd, btnAnnotationRemove);
+        new BeanListActions(getEditor(), getCurrentItem(), "annotations", annotationsViewer, btnAnnotationAdd, btnAnnotationRemove).bind();
+        ModelListDragSupport.configure(annotationsViewer);
     }
     
     @Override

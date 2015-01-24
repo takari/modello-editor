@@ -236,7 +236,7 @@ public abstract class DocumentEditor extends FormEditor implements IResourceChan
         if(delta != null) {
             if(file != null) {
                 IResourceDelta resDelta = delta.findMember(file.getFullPath());
-                if(resDelta.getKind() == IResourceDelta.REMOVED) {
+                if(resDelta != null && resDelta.getKind() == IResourceDelta.REMOVED) {
                     close(false);
                 }
             }

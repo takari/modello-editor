@@ -11,5 +11,7 @@ public interface IListControl {
     IModelExtension add();
     
     void remove(IModelExtension item);
+
+    boolean hasHint(String hint);
     
 }

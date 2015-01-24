@@ -1,5 +1,6 @@
 package io.takari.modello.editor.impl.model;
 
+import io.takari.modello.editor.mapping.annotations.EditableList;
 import io.takari.modello.editor.mapping.annotations.Observe;
 import io.takari.modello.editor.mapping.dom.annotations.XMLCData;
 import io.takari.modello.editor.mapping.dom.annotations.XMLList;
@@ -63,6 +64,7 @@ public abstract class AbstractModelloModel extends AbstractModelBean {
         this.comment = comment;
     }
 
+    @EditableList("Annotation")
     public List<MAnnotation> getAnnotations() {
         return this.annotations;
     }

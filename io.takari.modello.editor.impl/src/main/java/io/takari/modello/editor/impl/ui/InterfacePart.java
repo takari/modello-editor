@@ -38,6 +38,7 @@ import io.takari.modello.editor.impl.model.MAnnotation;
 import io.takari.modello.editor.impl.model.plugin.IMetadataUI;
 import io.takari.modello.editor.impl.model.plugin.MetadataPlugins;
 import io.takari.modello.editor.impl.model.plugin.MetadataPlugins.MetadataPluginRef;
+import io.takari.modello.editor.toolkit.util.ModelListDragSupport;
 import io.takari.modello.editor.toolkit.util.TableSingleColumnLabelProvider;
 
 import org.eclipse.core.databinding.observable.list.IObservableList;
@@ -226,8 +227,8 @@ public class InterfacePart extends AbstractDetailPart {
     }
     
     private void hookListeners() {
-        BeanListActions.configure(getEditor(), getCurrentItem(), "annotations", classAnnotationsViewer, btnAnnotationAdd, btnAnnotationRemove).bind();
-        BeanListActions.configure(getEditor(), getCurrentItem(), "codeSegments", codeSegmentsViewer, btnCodeSegmentAdd, btnCodeSegmentRemove)
+        new BeanListActions(getEditor(), getCurrentItem(), "annotations", classAnnotationsViewer, btnAnnotationAdd, btnAnnotationRemove).bind();
+        new BeanListActions(getEditor(), getCurrentItem(), "codeSegments", codeSegmentsViewer, btnCodeSegmentAdd, btnCodeSegmentRemove)
             .withDialog(btnCodeSegmentEdit, new BeanListActions.IModelProvider() {
                 
                 @Override
@@ -241,6 +242,8 @@ public class InterfacePart extends AbstractDetailPart {
                 }
                 
             }).bind();
+        ModelListDragSupport.configure(classAnnotationsViewer);
+        ModelListDragSupport.configure(codeSegmentsViewer);
     }
 
     @Override

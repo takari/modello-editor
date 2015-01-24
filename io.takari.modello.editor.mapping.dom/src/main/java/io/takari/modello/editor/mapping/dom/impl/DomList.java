@@ -71,31 +71,36 @@ public class DomList extends DomSection {
         Element node = f.getNode(ctx, false);
         Element wrapper = getNode(ctx, false);
         
-        // TODO proper section content:
-        // 1. all trailing text, cdata and comments up to (not inclusive) the line break which follows a previous element
-        // 2. all leading text, cdata and comments up to (and including) the first encountered line break
-        
         if(wrapper != null) {
             int l = elementCount(ctx, wrapper, itemName);
             if(pos >= 0 && pos < l) {
                 if(pos > f.index) pos++;
                 Node beforeNode = findElement(ctx, wrapper, itemName, pos);
                 
-                if(pos < f.index) {
+                // section is considered to also contain all leading text up to previous element
+                
+                // squeeze section between targetSection-1 and its trailing text
+                // handle last section's trailing text
+                if(beforeNode == null) {
+                    beforeNode = wrapper.getLastChild();
+                    if(beforeNode instanceof Element) beforeNode = null;
+                }
+                if(beforeNode != null) {
                     while(beforeNode.getPreviousSibling() != null && !(beforeNode.getPreviousSibling() instanceof Element)) {
                         beforeNode = beforeNode.getPreviousSibling();
                     }
                 }
                 
+                // move all leading text along with the section
                 List<Node> toMove = new ArrayList<Node>();
                 Node moving = node;
                 do {
                     toMove.add(moving);
-                    moving = pos > f.index ? moving.getNextSibling() : moving.getPreviousSibling();
+                    moving = moving.getPreviousSibling();
                 } while(moving != null && !(moving instanceof Element));
+                Collections.reverse(toMove);
                 
-                if(pos < f.index) Collections.reverse(toMove);
-                
+                // perform move
                 for(Node n: toMove) {
                     wrapper.removeChild(n);
                     if(beforeNode != null) wrapper.insertBefore(n, beforeNode);

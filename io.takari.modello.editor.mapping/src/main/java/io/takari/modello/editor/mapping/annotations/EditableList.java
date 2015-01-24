@@ -11,4 +11,6 @@ public @interface EditableList {
     
     String value();
     
+    String hints() default "";
+    
 }

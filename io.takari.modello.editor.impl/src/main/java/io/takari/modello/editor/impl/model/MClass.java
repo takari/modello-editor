@@ -31,6 +31,7 @@ public class MClass extends AbstractType implements ITreeBean {
         this.superClass = superClass;
     }
 
+    @EditableList("Interface")
     public List<MClassInterface> getInterfaces() {
         return this.interfaces;
     }
@@ -39,7 +40,7 @@ public class MClass extends AbstractType implements ITreeBean {
         this.interfaces = interfaces;
     }
     
-    @EditableList("Field")
+    @EditableList(value = "Field", hints = "modelTree")
     public List<MField> getFields() {
         return this.fields;
     }

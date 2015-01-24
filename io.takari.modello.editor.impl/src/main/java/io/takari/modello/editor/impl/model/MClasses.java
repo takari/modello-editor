@@ -17,7 +17,7 @@ public class MClasses extends AbstractModelBean implements ITreeBean {
     @XMLList("class")
     private List<MClass> classes;
     
-    @EditableList("Class")
+    @EditableList(value = "Class", hints = "modelTree")
     public List<MClass> getClasses() {
         return this.classes;
     }

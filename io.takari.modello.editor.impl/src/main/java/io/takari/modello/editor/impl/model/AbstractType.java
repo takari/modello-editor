@@ -1,5 +1,6 @@
 package io.takari.modello.editor.impl.model;
 
+import io.takari.modello.editor.mapping.annotations.EditableList;
 import io.takari.modello.editor.mapping.dom.annotations.XMLList;
 import io.takari.modello.editor.mapping.dom.annotations.XMLText;
 
@@ -21,6 +22,7 @@ public abstract class AbstractType extends AbstractModelloModel {
         this.packageName = packageName;
     }
 
+    @EditableList("Code Segment")
     public List<MCodeSegment> getCodeSegments() {
         return codeSegments;
     }
