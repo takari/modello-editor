@@ -71,6 +71,10 @@ public class DomList extends DomSection {
         Element node = f.getNode(ctx, false);
         Element wrapper = getNode(ctx, false);
         
+        // TODO proper section content:
+        // 1. all trailing text, cdata and comments up to (not inclusive) the line break which follows a previous element
+        // 2. all leading text, cdata and comments up to (and including) the first encountered line break
+        
         if(wrapper != null) {
             int l = elementCount(ctx, wrapper, itemName);
             if(pos >= 0 && pos < l) {

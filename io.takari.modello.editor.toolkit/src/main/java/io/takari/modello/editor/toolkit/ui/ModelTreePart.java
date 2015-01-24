@@ -16,12 +16,19 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.databinding.viewers.ObservableListTreeContentProvider;
+import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSourceEvent;
+import org.eclipse.swt.dnd.DragSourceListener;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -68,6 +75,8 @@ public class ModelTreePart extends AbstractEditorFormPart {
         
         hookListeners();
         
+        hookDND();
+        
         hookMenu();
     }
     
@@ -77,6 +86,74 @@ public class ModelTreePart extends AbstractEditorFormPart {
             public void selectionChanged(SelectionChangedEvent event) {
                 getManagedForm().fireSelectionChanged(ModelTreePart.this, event.getSelection());
             }
+        });
+    }
+    
+    private void hookDND() {
+        
+        modelTreeViewer.addDragSupport(DND.DROP_MOVE, new Transfer[]{ LocalSelectionTransfer.getTransfer() }, new DragSourceListener() {
+            @Override
+            public void dragStart(DragSourceEvent event) {
+                LocalSelectionTransfer.getTransfer().setSelection(modelTreeViewer.getSelection());
+            }
+            @Override
+            public void dragSetData(DragSourceEvent event) {
+            }
+            @Override
+            public void dragFinished(DragSourceEvent event) {
+                LocalSelectionTransfer.getTransfer().setSelection(null);
+            }
+        });
+        
+        modelTreeViewer.addDropSupport(DND.DROP_MOVE, new Transfer[]{ LocalSelectionTransfer.getTransfer() }, new ViewerDropAdapter(modelTreeViewer) {
+            
+            IListControl list;
+            IModelExtension sourceElem;
+            int newIdx;
+            
+            @Override
+            public boolean validateDrop(Object target, int operation, TransferData transferType) {
+                if(target == null) return false;
+                
+                sourceElem = ((IModelExtension) getSelectedObject());
+                IModelExtension sourceDelegate = sourceElem._getDelegate();
+                IModelExtension targetElem = ((IModelExtension) target)._getDelegate();
+                
+                String parentProp = sourceDelegate._getParentProperty();
+                IModelExtension parent = (IModelExtension) sourceDelegate.getParent();
+                
+                list = parent._getListControl(parentProp);
+                if(list == null || !list.isEditable()) return false;
+                
+                IModelExtension targetParent = (IModelExtension) targetElem.getParent();
+                if(parent != targetParent) return false;
+                
+                int oldIdx = sourceDelegate._getIndex();
+                int newIdx = targetElem._getIndex();
+                
+                if(newIdx > oldIdx) {
+                    newIdx--;
+                }
+                
+                int loc = getCurrentLocation();
+                switch(loc) {
+                case LOCATION_AFTER:
+                    newIdx++;
+                    break;
+                }
+                this.newIdx = newIdx;
+                return true;
+            }
+            
+            @Override
+            public boolean performDrop(Object data) {
+                list.move(sourceElem, newIdx);
+                list = null;
+                sourceElem = null;
+                newIdx = 0;
+                return true;
+            }
+            
         });
     }
     
