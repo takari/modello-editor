@@ -20,8 +20,8 @@
   <properties>
     <repositoryPathId>modello-editor</repositoryPathId>
     <p2MetadataName>Modello Editor</p2MetadataName>
-  </properties>  
-  
+  </properties>
+
   <licenses>
     <license>
       <name>Eclipse Public License - v 1.0</name>
@@ -44,7 +44,7 @@
     <module>io.takari.modello.editor.feature</module>
     <module>io.takari.modello.editor.repo</module>
   </modules>
-  
+
   <dependencies>
     <dependency>
       <groupId>io.takari.modello.editor</groupId>
@@ -64,7 +64,7 @@
         </configuration>
       </plugin>
     </plugins>
-    
+
     <pluginManagement>
       <plugins>
         <plugin>
@@ -84,4 +84,19 @@
     </pluginManagement>
   </build>
 
+  <profiles>
+    <profile>
+      <!-- This profile is only activated when building in Eclipse with m2e -->
+      <id>m2e</id>
+      <activation>
+        <property>
+          <name>m2e.version</name>
+        </property>
+      </activation>
+      <modules>
+        <!-- this must be built separately during command line, but should be part of the same m2e workspace -->
+        <module>io.takari.modello.editor.mapping</module>
+      </modules>
+    </profile>
+  </profiles>
 </project>
