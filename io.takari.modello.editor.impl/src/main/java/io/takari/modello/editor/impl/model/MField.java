@@ -94,5 +94,10 @@ public class MField extends AbstractModelloModel implements ITreeBean {
     public boolean isHasChildren() {
         return false;
     }
+    
+    @Override
+    public MClass getParent() {
+        return (MClass) super.getParent();
+    }
 
 }

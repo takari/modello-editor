@@ -14,7 +14,7 @@ import org.eclipse.ui.forms.IDetailsPageProvider;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.MasterDetailsBlock;
 
-public class ModelMasterDetailsBlock extends MasterDetailsBlock {
+public class ModelMasterDetailsBlock extends MasterDetailsBlock implements IModelListener {
     
     private final ModelTreePart modelTreePart;
     private final List<AbstractDetailPart> details;
@@ -22,6 +22,8 @@ public class ModelMasterDetailsBlock extends MasterDetailsBlock {
     public ModelMasterDetailsBlock(IDocumentEditor editor) {
         modelTreePart = new ModelTreePart(editor);
         details = new ArrayList<AbstractDetailPart>();
+        
+        modelTreePart.addModelListener(this);
     }
     
     public ModelMasterDetailsBlock addPart(AbstractDetailPart part) {
@@ -63,6 +65,24 @@ public class ModelMasterDetailsBlock extends MasterDetailsBlock {
                 return null;
             }
         });
+    }
+
+    @Override
+    public void modelAdded(IModelExtension model) {
+        for(AbstractDetailPart part: details) {
+            if(part.getDetailClass().isInstance(model)) {
+                part.modelAdded(model);
+            }
+        }
+    }
+
+    @Override
+    public void modelRemoved(IModelExtension model) {
+        for(AbstractDetailPart part: details) {
+            if(part.getDetailClass().isInstance(model)) {
+                part.modelRemoved(model);
+            }
+        }
     }
 
 }

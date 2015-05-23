@@ -12,6 +12,7 @@ import io.takari.modello.editor.impl.model.plugin.IMetadataUI;
 import io.takari.modello.editor.impl.model.plugin.MetadataPlugins;
 import io.takari.modello.editor.impl.model.plugin.MetadataPlugins.MetadataPluginRef;
 import io.takari.modello.editor.mapping.model.IModel;
+import io.takari.modello.editor.mapping.model.IModelExtension;
 import io.takari.modello.editor.toolkit.actions.BeanListActions;
 import io.takari.modello.editor.toolkit.editor.IDocumentEditor;
 import io.takari.modello.editor.toolkit.ui.AbstractDetailPart;
@@ -241,6 +242,12 @@ public class FieldPart extends AbstractDetailPart {
     private void hookListeners() {
         new BeanListActions(getEditor(), getCurrentItem(), "annotations", annotationsViewer, btnAnnotationAdd, btnAnnotationRemove).bind();
         ModelListDragSupport.configure(annotationsViewer);
+    }
+    
+    @Override
+    public void modelAdded(IModelExtension model) {
+        MField field = (MField) model;
+        field.setVersion(field.getParent().getVersion());
     }
     
     @Override

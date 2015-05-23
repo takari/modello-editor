@@ -1,6 +1,7 @@
 package io.takari.modello.editor.toolkit.ui;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import io.takari.modello.editor.mapping.model.IListControl;
 import io.takari.modello.editor.mapping.model.IModelExtension;
@@ -36,6 +37,8 @@ import org.eclipse.wb.rcp.databinding.TreeObservableStyledCellLabelProvider;
 public class ModelTreePart extends AbstractEditorFormPart {
     private TreeViewer modelTreeViewer;
     private Tree modelTree;
+    
+    private List<IModelListener> modelListeners;
     
     public ModelTreePart(IDocumentEditor editor) {
         super(editor);
@@ -83,8 +86,6 @@ public class ModelTreePart extends AbstractEditorFormPart {
         ModelListDragSupport.configure(modelTreeViewer);
     }
     
-    
-    
     private void hookMenu() {
         
         MenuManager menuMgr = new MenuManager();
@@ -117,6 +118,7 @@ public class ModelTreePart extends AbstractEditorFormPart {
                     @Override
                     public void run() {
                         IModelExtension newItem = control.add();
+                        notifyAdded(newItem);
                         modelTreeViewer.expandToLevel(model, 1);
                         modelTreeViewer.setSelection(new StructuredSelection(newItem));
                     }
@@ -151,6 +153,7 @@ public class ModelTreePart extends AbstractEditorFormPart {
                     @Override
                     public void run() {
                         parentControl.remove(model);
+                        notifyRemoved(model);
                     }
                 });
             }
@@ -189,5 +192,35 @@ public class ModelTreePart extends AbstractEditorFormPart {
         modelTreeViewer.setInput(childrenEditorgetModelObserveList);
         //
         return bindingContext;
+    }
+    
+    public void addModelListener(IModelListener listener) {
+        if(listener == null) return;
+        
+        if(modelListeners == null) {
+            modelListeners = new CopyOnWriteArrayList<>();
+        }
+        modelListeners.add(listener);
+    }
+    
+    public void removeModelListener(IModelListener listener) {
+        if(listener == null || modelListeners == null) return;
+        modelListeners.remove(listener);
+    }
+    
+    protected void notifyAdded(IModelExtension model) {
+        if(modelListeners == null) return;
+        
+        for(IModelListener l: modelListeners) {
+            l.modelAdded(model);
+        }
+    }
+    
+    protected void notifyRemoved(IModelExtension model) {
+        if(modelListeners == null) return;
+        
+        for(IModelListener l: modelListeners) {
+            l.modelRemoved(model);
+        }
     }
 }

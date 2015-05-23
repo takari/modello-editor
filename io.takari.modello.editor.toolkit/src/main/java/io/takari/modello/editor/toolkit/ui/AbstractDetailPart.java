@@ -10,7 +10,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.forms.IFormPart;
 
-public abstract class AbstractDetailPart extends AbstractEditorFormPart {
+public abstract class AbstractDetailPart extends AbstractEditorFormPart implements IModelListener {
     
     private final WritableValue currentItem;
 
@@ -41,4 +41,9 @@ public abstract class AbstractDetailPart extends AbstractEditorFormPart {
         return currentItem;
     }
     
+    public void modelAdded(IModelExtension model) {
+    }
+    
+    public void modelRemoved(IModelExtension model) {
+    }
 }
