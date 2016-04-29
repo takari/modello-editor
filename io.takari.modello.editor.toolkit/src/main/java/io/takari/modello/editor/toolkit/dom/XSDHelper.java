@@ -35,7 +35,11 @@ public class XSDHelper {
         CMElementDeclaration ed = mq.getCMElementDeclaration(parentElement);
         if(ed == null) return Collections.emptyList();
         
-        XSDElementDeclaration xsded = (XSDElementDeclaration) ((CMNodeImpl)ed).getKey();
+        XSDElementDeclaration xsded = null;
+        if(ed instanceof CMNodeImpl){
+          xsded = (XSDElementDeclaration) ((CMNodeImpl)ed).getKey();
+        }
+        
         if(xsded == null) return Collections.emptyList();
         
         XSDElementCollector xsdc = new XSDElementCollector();

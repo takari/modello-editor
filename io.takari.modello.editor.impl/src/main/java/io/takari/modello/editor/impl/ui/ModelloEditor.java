@@ -20,12 +20,12 @@ public class ModelloEditor extends DomDocumentEditor {
     
     @Override
     protected String getModelNamespace() {
-        return "http://modello.codehaus.org/MODELLO/1.4.1";
+        return "http://codehaus-plexus.github.io/MODELLO/1.8.0";
     }
     
     @Override
     protected String getModelSchemaLocation() {
-        return "http://modello.codehaus.org/xsd/modello-1.4.1.xsd";
+        return "http://codehaus-plexus.github.io/modello/xsd/modello-1.8.0.xsd";
     }
     
     @Override
